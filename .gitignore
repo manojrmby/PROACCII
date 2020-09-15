@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs
+/PROACCII/packages
+/PROACCII/.vs/PROACCII
+/PROACCII/PROACCII/bin
+/PROACCII/PROACCII/obj/Debug
