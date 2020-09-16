@@ -8,7 +8,7 @@ using System.Web.Mvc;
 
 namespace PROACCII.Controllers
 {
-    public class ProjectCreationController : Controller
+    public class ProjectController : Controller
     {
         private ProAccEntities db = new ProAccEntities(); 
         // GET: ProjectCreation

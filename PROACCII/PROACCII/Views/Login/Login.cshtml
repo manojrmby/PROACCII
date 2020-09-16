@@ -1,0 +1,36 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Login</title>
+</head>
+<body>
+    @using (Html.BeginForm("Validate", "Login"))
+    {
+        @Html.AntiForgeryToken()
+        <div>
+            <a>User name</a>
+            <input type="text"
+                   name="Username"
+                   placeholder="User Name" id="Username" style="width:225px;" />
+            <a>password</a>
+            <input class="input100 fa fa-envelope-square"
+                   type="password"
+                   name="Password"
+                   placeholder="Password" id="Password" style="width:225px;" />
+
+
+            <button id="loginclick" type="submit">
+                Login
+                <div></div>
+            </button>
+        </div>
+    }
+    </body>
+</html>
