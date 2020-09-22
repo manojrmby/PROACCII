@@ -1,0 +1,71 @@
+﻿@model PROACCII_DB.RoleMaster
+
+
+<link href="~/Content/Customer.css" rel="stylesheet" />
+
+<input type="hidden" id="roleid" value="@Model.RoleId" />
+<input type="hidden" id="pcre_on" value="@Model.Cre_on" />
+<input type="hidden" id="pcre_By" value="@Model.Cre_By" />
+
+<div class="modal">
+    <div class="title">
+        <h3 class="h2">Edit User</h3>
+        <img src="~/Asset/Images/pngegg.png" alt="No Image" width="20" height="20" id="crossimg" />
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="control-label">Role Name</label>
+            <input type="text" class="form-control" id="txtRoleName" value="@Model.RoleName" />
+            <div class="_span">
+                &nbsp;&nbsp;&nbsp;<span class="Class_span" id="lblRoleName">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+
+    <hr />
+    <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-corner-all ui-widget btn-hover" id="btnRoleUpdate">Role Update</button>
+        <button type="button" class="ui-button ui-corner-all ui-widget btn-hover" id="closedialog">Cancel</button>
+    </div>
+</div>
+
+@Html.Hidden("RedirectToCustomerList", Url.Action("Home", "Home"))
+<script>
+    $(document).ready(function () {
+
+        $("#btnRoleUpdate").on("click", function () {
+            var id = $("#roleid").val();
+            var rolename = $("#txtRoleName").val();
+            if (rolename == "") {
+                $("#lblRoleName").html("Please enter the Customer Name").show().fadeOut(5000);
+            }
+            else {
+                $.ajax({
+                    url: '@Url.Action("EditRole", "Home")',
+                    type: "POST",
+                    data: { RoleId: id, RoleName: rolename },
+                    success: function (result) {
+
+                        location.href = $("#RedirectToCustomerList").val();
+
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        });
+
+
+
+
+
+
+
+
+        $("#closedialog,#crossimg").click(function () {
+            $("#EditRole").dialog("close");
+        });
+    });
+</script>
+

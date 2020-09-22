@@ -1,0 +1,168 @@
+﻿
+@model PROACCII_DB.Project
+@{
+    Layout = null;
+}
+<h2>Update Project</h2>
+<script src="~/Scripts/jquery.min.js"></script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    <input type="hidden" id="Project_Id" value="@Model.Project_Id" />
+    <label class="control-label col-md-4 required">Project Name</label>
+    <input type="text" class="form-control" id="txtProjectName"  value="@Model.Project_Name"/>
+    <span id="lblProjecteName">&nbsp;</span>
+    <br />
+    <br />
+    <label class="control-label col-md-4 required">Customer</label>
+    <select class="form-control" id="drpCustomer">
+        <option value="0">Select Customer</option>
+        @foreach (var item in ViewBag.Customer)
+        {
+            if (item.Customer_ID == Model.Customer_Id)
+            {
+                <option value="@item.Customer_ID" selected>@item.Company_Name</option>
+            }
+            else
+            {
+                <option value="@item.Customer_ID">@item.Company_Name</option>
+            }
+        }
+    </select>
+    <span id="lblCustomer">&nbsp;</span>
+    <br />
+    <br />
+    <label class="control-label col-md-4 required">Project Manager</label>
+    <select class="form-control" id="drpProjectManager">
+        <option value="0">Select Project Manager</option>
+        @foreach (var item in ViewBag.ProjectManager)
+        {
+            if (item.UserId == Model.ProjectManager_Id)
+            {
+                <option value="@item.UserId" selected>@item.Name</option>
+            }
+            else
+            {
+                <option value="@item.UserId">@item.Name</option>
+            }
+        }
+    </select>
+    <span id="lblProjectManager">&nbsp;</span>
+    <br />
+    <br />
+    <label class="control-label col-md-4 required">Scenario</label>
+    <select class="form-control" id="drpScenario">
+        <option value="0">Select Scenario </option>
+        @foreach (var item in ViewBag.Scenario)
+        {
+            if (item.ScenarioId == Model.ScenarioId)
+            {
+                <option value="@item.ScenarioId"selected>@item.ScenarioName</option>
+            }
+            else
+            {
+                <option value="@item.ScenarioId">@item.ScenarioName</option>
+            }
+        }
+    </select>
+    <span id="lblScenario">&nbsp;</span>
+    <br />
+    <br />
+    <label class="control-label col-md-4 required">Description</label>
+    <input type="text" class="form-control" id="txtDescription" maxlength="300" value="@Model.Description"/>
+    <br />
+    <br />
+
+    <button id="btnProjectUpdate" type="submit">Update</button>
+    <button onclick="location.href = '@Url.Action("Index", "Project")';">Cancel</button>
+    <span id="lblCommon">&nbsp;</span>
+</body>
+</html>
+<script type="text/javascript">
+
+
+    $("body").on("click","#btnProjectUpdate", function () {
+        var Project_Id = $("#Project_Id").val().trim();
+        var projectName = $("#txtProjectName").val().trim();
+        var Customer_id = $("#drpCustomer").val();
+        var ProjectManager_id = $("#drpProjectManager").val();
+        var Scenario_id = $("#drpScenario").val();
+        var Description = $("#txtDescription").val();
+        var prjName = cusid = prmnrid = sceid = false;
+
+        if (projectName == "") {
+            prjName = true;
+            $("#lblProjecteName").html("Please Enter the project Name").show();
+        }
+        else {
+             $("#lblProjecteName").html("").show();
+        }
+
+        if (Customer_id == 0) {
+            cusid = true;
+             $("#lblCustomer").html("Please Select the Customer").show();
+        }
+        else {
+            $("#lblCustomer").html("").show();
+        }
+
+        if (ProjectManager_id == 0) {
+            prmnrid = true;
+            $("#lblProjectManager").html("Please Select the Project Manager").show();
+        }
+        else {
+            $("#lblProjectManager").html("").show();
+        }
+
+        if (Scenario_id == 0) {
+            sceid = true;
+            $("#lblScenario").html("Please Select the Scenario").show();
+        }
+        else {
+            $("#lblScenario").html("").show();
+        }
+
+        if (prjName == false && cusid == false && prmnrid == false && sceid == false) {
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Edit","Project")',
+                data: {
+                    Project_Id:Project_Id,
+                    project_Name: projectName,
+                    Customer_Id: Customer_id,
+                    Description: Description,
+                    ProjectManager_Id: ProjectManager_id,
+                    ScenarioId: Scenario_id
+                },
+                success: function (response) {
+                    if (response == "success") {
+                        $("#txtProjectName").val("");
+                        $("#drpCustomer").val(0);
+                        $("#drpProjectManager").val(0);
+                        $("#drpScenario").val(0);
+                        $("#txtDescription").val("");
+                    }
+                    else {
+                        $("#lblProjecteName").html("This Project Name is already in use").show();
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            });
+        }
+        else {
+            $("#lblCommon").html("Please Enter all the details").show();
+        }
+    })
+
+</script>

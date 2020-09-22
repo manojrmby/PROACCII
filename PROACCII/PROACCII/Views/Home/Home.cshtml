@@ -3,5 +3,87 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
 
+<link href="~/Content/Customer.css" rel="stylesheet" />
+
+<h2>Index</h2>
+<a href="@Url.Action("Index","Project")">Project Index</a> <br/>
+<a href="@Url.Action("Create","Project")">Project Creation</a> <br />
+<a href="@Url.Action("Create","Instance")">Instance Creation</a><br />
+<div id="accordion">
+    <h3 class="h3">Customer<span class="plusminus" style="float:right">+</span></h3>
+    <div class="customer">
+        <input type="submit" value="Add Customer" class="btn" id="btnCustomer" />
+        <div id="AddUser"></div>
+        <div id="UserInfo"></div>
+       
+    </div>
+
+
+    <h3 class="h3">Role<span class="plusminus" style="float:right">+</span></h3>
+    <div class="customer role">
+        <input type="submit" value="Add Role" class="btn" id="btnRole" />
+        <div id="AddRole"></div>
+        <div id="RoleIndex"></div>
+    </div>
+
+</div>
+
+<script>
+    $(document).ready(function () {
+        $(".h3").click(function () {
+            if ($('.customer').is(':visible')) {
+                $(".customer").slideUp(300);
+                $(".plusminus").text('+');
+            }
+            if ($(this).next(".customer").is(':visible')) {
+                $(this).next(".customer").slideUp(300);
+                $(this).children(".plusminus").text('+');
+            } else {
+                $(this).next(".customer").slideDown(300);
+                $(this).children(".plusminus").text('-');
+            }
+        });
+            $("#UserInfo").load('@Url.Action("Index","Home")');
+
+        $("#accordion").accordion({
+            collapsable: true
+        });
+
+
+
+
+        $('#btnCustomer').on('click', function () {
+            $("#AddUser").dialog({
+                closeOnEscape: false,
+                autoOpen: true,
+                width: 700,
+                height:500,
+                draggable:false,
+                resizable: false,
+                modal: true,
+                open: function () {
+                    $(this).load('@Url.Action("Customer", "Home")');
+                },
+            });
+            return false;
+        });
+
+        $('#btnRole').on('click', function () {
+            $("#AddRole").dialog({
+                closeOnEscape: false,
+                autoOpen: true,
+                width: 700,
+                height:200,
+                draggable:false,
+                resizable: false,
+                modal: true,
+                open: function () {
+                    $(this).load('@Url.Action("CreateRole", "Home")');
+                },
+            });
+            return false;
+        });
+          $("#RoleIndex").load('@Url.Action("RoleIndex", "Home")');
+    });
+</script>

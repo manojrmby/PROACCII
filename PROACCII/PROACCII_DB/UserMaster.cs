@@ -12,20 +12,24 @@ namespace PROACCII_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class UserMaster
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
+        public UserMaster()
         {
-            this.Instances = new HashSet<Instance>();
+            this.Projects = new HashSet<Project>();
         }
     
-        public System.Guid Project_Id { get; set; }
-        public string Project_Name { get; set; }
-        public string Description { get; set; }
-        public System.Guid Customer_Id { get; set; }
-        public System.Guid ProjectManager_Id { get; set; }
-        public int ScenarioId { get; set; }
+        public System.Guid UserId { get; set; }
+        public string Name { get; set; }
+        public string EMail { get; set; }
+        public string Countrycode { get; set; }
+        public string Phone { get; set; }
+        public string LoginId { get; set; }
+        public string Password { get; set; }
+        public int RoleID { get; set; }
+        public int UserTypeID { get; set; }
+        public Nullable<System.Guid> Customer_Id { get; set; }
         public bool isActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }
@@ -35,8 +39,6 @@ namespace PROACCII_DB
     
         public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Instance> Instances { get; set; }
-        public virtual ScenarioMaster ScenarioMaster { get; set; }
-        public virtual UserMaster UserMaster { get; set; }
+        public virtual ICollection<Project> Projects { get; set; }
     }
 }

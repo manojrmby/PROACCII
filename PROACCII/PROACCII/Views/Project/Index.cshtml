@@ -52,6 +52,8 @@
     </style>
 </head>
 <body>
+    <button onclick="location.href = '@Url.Action("Create", "Instance")';">Add Instance</button>
+    <button onclick="location.href = '@Url.Action("Create", "Project")';">Add Project</button>
     <table cellpadding="0" cellspacing="0" class="Grid">
         <tr>
             <th></th>
@@ -60,39 +62,61 @@
             <th>Customer</th>
             <th>Project Manager</th>
             <th>Scenario</th>
+            <th>No. of Instance</th>
+            <th>Actions</th>
         </tr>
         @foreach (var project in Model)
         {
             <tr>
                 <td>
-                    <img src="~/Asset/Images/plus.png"  width="25%;" />
+                    <img src="~/Asset/Images/plus.png" style="width:2%" />
                     <div style="display:none">
                         <table cellpadding="0" cellspacing="0" class="ChildGrid">
                             <tr>
                                 <th>Instance</th>
                                 <th>Created On</th>
-                                <th>Created BY</th>
+                                <th>Created By</th>
+                                <th>Actions</th>
                             </tr>
-                            @foreach (var i in project.Instances.OrderBy(x=>x.Cre_on))
+                            @foreach (var i in project.Instances.OrderBy(x => x.Cre_on))
                             {
                                 <tr>
                                     <td>@i.InstaceName</td>
                                     <td>@i.Cre_on.ToString("yyyy-MM-dd")</td>
                                     <td>@i.Cre_By</td>
+                                    <td>
+                                        <a class="" href="@Url.Action("GetInstanceById","Instance", new { id = i.Instance_id })">Edit</a>
+                                        <a href="" id="btnInstanceDelete">Delete</a><input type="hidden" value="@i.Instance_id" />
+                                    </td>
                                 </tr>
                             }
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Create", "Instance")">+Add Instance</a>
+                                </td>
+                            </tr>
                         </table>
                     </div>
                 </td>
                 <td>@project.Project_Name</td>
                 <td>@project.Cre_on.ToString("yyyy-MM-dd")</td>
-                <td>@project.Customer_Id</td>
-                <td>@project.ProjectManager_Id</td>
-                <td>@project.ScenarioId</td>
+                <td>@project.Customer.Company_Name</td>
+                <td>@project.UserMaster.Name</td>
+                <td>@project.ScenarioMaster.ScenarioName</td>
+                @*<td>@project.Company_Name</td>
+                <td>@project.Name</td>
+                <td>@project.ScenarioName</td>*@
+                <td>@project.InstanceCount</td>
+                 <td>
+                     <a class="" href="@Url.Action("GetProjectById","Project", new { id = project.Project_Id })">Edit</a>
+                     @*<a href="#" id="btnProjectEdit" class="btnProjectEdit fa fa-edit">Edit</a><input type="hidden" value="@project.Project_Id" />*@
+                     <a href="" id="btnProjectDelete" class="btnProjectDelete">Delete</a><input type="hidden" value="@project.Project_Id" />
+                 </td>
             </tr>
+
         }
     </table>
-    
+
     <script type="text/javascript">
         //Assign Click event to Plus Image.
         $("body").on("click", "img[src*='plus.png']", function () {
@@ -103,6 +127,75 @@
         $("body").on("click", "img[src*='minus.png']", function () {
             $(this).attr("src", "/Asset/images/plus.png");
             $(this).closest("tr").next().remove();
+        });
+
+        @*$("body").on("click", "#btnProjectEdit", function () {
+            var id = $(this).next().val();
+            $.ajax({
+                url: '@Url.Action("GetProjectById","Project")',
+                type: "GET",
+                data: { id: id },
+
+                success: function (result) {
+                    $("#proj_id").val(result.Project_Id);
+                    $("#txtProjectName").val(result.Project_Name);
+                    $("#drpCustomer").val(result.Customer_Id);
+                    $("#drpProjectManager").val(result.ProjectManager_Id);
+                    $("#drpScenario").val(result.ScenarioId);
+                    $("#txtDescription").val(result.Description);
+
+                    //$("#btnProjectUpdate").show();
+                    //$("#btnProjectCreate").hide();
+
+                },
+                error: function (err) {
+                    alert(err.responseText);
+                }
+            });
+        });*@
+
+        $("body").on("click","#btnInstanceDelete", function () {
+            var id = $(this).next().val();
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Instance")',
+                    data: { id: id },
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        if (response == "success") {
+                            alert('Instance deleted successfully..!');
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
+        });
+
+         $("body").on("click",".btnProjectDelete", function () {
+            var id = $(this).next().val();
+            $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Delete","Project")',
+                    data: { id: id },
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        if (response == "success") {
+                            alert('Project deleted successfully..!');
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+            });
         });
     </script>
 </body>

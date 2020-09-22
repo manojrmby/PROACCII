@@ -50,6 +50,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Customer.cs">
+      <DependentUpon>ProAccEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IndustrySector.cs">
+      <DependentUpon>ProAccEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Instance.cs">
       <DependentUpon>ProAccEntities.tt</DependentUpon>
     </Compile>
@@ -72,6 +78,15 @@
       <DependentUpon>ProAccEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RoleMaster.cs">
+      <DependentUpon>ProAccEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScenarioMaster.cs">
+      <DependentUpon>ProAccEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserMaster.cs">
+      <DependentUpon>ProAccEntities.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="ProAccEntities.edmx">

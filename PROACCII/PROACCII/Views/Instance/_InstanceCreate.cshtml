@@ -1,0 +1,99 @@
+﻿
+@{
+    Layout = null;
+}
+<h2>Instance Creation</h2>
+<script src="~/Scripts/jquery.min.js"></script>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Instance Create</title>
+</head>
+<body>
+
+    <label class="control-label col-md-4 required">Project</label>
+    <select class="form-control" id="drpProject">
+        <option value="0">Select Project</option>
+        @foreach (var item in ViewBag.project)
+        {
+            <option value="@item.Project_Id">@item.Project_Name</option>
+        }
+    </select>
+    <span id="lblProject">&nbsp;</span>
+    <br />
+    <br />
+    <label class="control-label col-md-4 required">Instance Name</label>
+    <input type="text" class="form-control" id="txtInstanceName" maxlength="3" />
+    <span id="lblInstanceName">&nbsp;</span>
+    <br />
+    <br />
+    <label class="control-label col-md-4 required">Description</label>
+    <input type="text" class="form-control" id="txtDescription" maxlength="300" />
+    <br />
+    <br />
+    <button id="btnInstanceCreate" type="submit">Create</button>
+    <button onclick="location.href = '@Url.Action("Index", "Project")';">Cancel</button>
+    <span id="lblCommon">&nbsp;</span>
+</body>
+</html>
+<script type="text/javascript">
+
+    $("#btnInstanceCreate").on("click", function () {
+
+        var InstanceName = $("#txtInstanceName").val().trim();
+        var Project = $("#drpProject").val().trim();
+         var Description = $("#txtDescription").val().trim();
+         var proj = false;
+         var InstName = false;
+         if (Project == 0) {
+             proj = true;
+             $("#lblProject").html("Please Select the project").show();
+         }
+         else {
+             $("#lblProject").html("").show();
+         }
+
+         if (InstanceName == "") {
+             InstName = true;
+             $("#lblInstanceName").html("Please enter the Instance Name").show();
+         }
+         else {
+             $("#lblInstanceName").html("").show();
+         }
+
+         if (proj == false && InstName == false) {
+
+             $.ajax({
+                 type: "POST",
+                 url: '@Url.Action("Create","Instance")',
+                 data: { InstaceName: InstanceName, Project_ID: Project },
+                 async: false,
+                 success: function (response) {
+                     if (response == "success") {
+
+                         $("#txtInstanceName").val("")
+                         $("#drpProject").val(0)
+                         $("#txtDescription").val("")
+                         $("#lblCommon").html("").show();
+                     }
+                     else {
+                         $("#lblInstanceName").html("This Instance Name is already in use for this project").show();
+                     }
+                 },
+                 failure: function (response) {
+                     alert(response.responseText);
+                 },
+                 error: function (response) {
+                     alert(response.responseText);
+                 }
+             });
+         }
+         else {
+             $("#lblCommon").html("Please Enter all the details").show();
+
+         }
+    });
+</script>

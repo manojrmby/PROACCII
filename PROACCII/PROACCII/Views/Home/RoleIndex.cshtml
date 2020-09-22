@@ -1,0 +1,76 @@
+﻿@model  IEnumerable<PROACCII_DB.RoleMaster>
+
+
+<link href="~/Content/Customer.css" rel="stylesheet" />
+<div style="max-width: 99.5%">
+
+    <a class="card-title">Role List</a>
+    <hr />
+    <table class="table" id="tblCustomer">
+        @*_search*@
+        <thead>
+            <tr>
+                <th>Role Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="txtG" value="@item.RoleName">@item.RoleName</a>
+                    </td>
+
+                    <td>
+                        @*&nbsp;&nbsp;<button id="btnEdit"><img src="~/Asset/Images/edit.png" class="btnimg" /></button>
+                            &nbsp;&nbsp;<button id="btnDelete"><img src="~/Asset/Images/delete.png" class="btnimg" /></button>*@
+
+                        &nbsp;&nbsp;<input type="button" id="btnEdit" onclick='EditRole("@item.RoleId")' value="Edit" />
+                        &nbsp;&nbsp;<input type="button" id="btnDelete" onclick='DeleteRole("@item.RoleId")' value="Delete" />
+                        <input type="hidden" value="@item.RoleId" id="CustID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="EditRole"></div>
+<script>
+
+        function EditRole(id) {
+            $("#EditRole").dialog({
+                closeOnEscape: false,
+                autoOpen: true,
+                width: 700,
+                height:300,
+                draggable: false,
+                resizable: false,
+                modal: true,
+                open: function () {
+                    $(this).load("/Home/GetRoleById?id=" + id);
+                },
+            });
+        }
+
+
+    function DeleteRole(id) {
+            $.ajax({
+                type: "POST",
+               url: '@Url.Action("DeleteRole", "Home")',
+                data: { id: id },
+                dataType: "json",
+                success: function (response) {
+                    if (response == "success") {
+                        alert("Record Deleted Scuccessfully");
+                        var url = $("#RedirectToCustomerList").val();
+                        location.href = url;
+                       // location.reload();
+                    }
+                }
+            });
+        }
+
+</script>
+
+

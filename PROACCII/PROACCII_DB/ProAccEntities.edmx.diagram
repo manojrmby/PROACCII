@@ -4,10 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c6437bbcf3ab4d748ad01a106b520143" Name="Diagram1">
-        <EntityTypeShape EntityType="PROACCModel.Instance" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="PROACCModel.Project" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
-        <AssociationConnector Association="PROACCModel.FK_Instance_Project" ManuallyRouted="false" />
+      <Diagram DiagramId="c6437bbcf3ab4d748ad01a106b520143" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="PROACCModel.Customer" Width="1.5" PointX="3" PointY="3.875" />
+        <EntityTypeShape EntityType="PROACCModel.IndustrySector" Width="1.5" PointX="0.75" PointY="4.625" />
+        <EntityTypeShape EntityType="PROACCModel.Instance" Width="1.5" PointX="9.75" PointY="6.75" />
+        <EntityTypeShape EntityType="PROACCModel.Project" Width="1.5" PointX="7.5" PointY="6.375" />
+        <EntityTypeShape EntityType="PROACCModel.ScenarioMaster" Width="1.5" PointX="5.25" PointY="4.125" />
+        <EntityTypeShape EntityType="PROACCModel.UserMaster" Width="1.5" PointX="5.25" PointY="8.5" />
+        <AssociationConnector Association="PROACCModel.FK_Customer_IndustrySector" />
+        <AssociationConnector Association="PROACCModel.FK_Project_Customer" />
+        <AssociationConnector Association="PROACCModel.FK_UserMaster_Customer" />
+        <AssociationConnector Association="PROACCModel.FK_Instance_Project" />
+        <AssociationConnector Association="PROACCModel.FK_Project_ScenarioMaster" />
+        <AssociationConnector Association="PROACCModel.FK_Project_UserMaster" />
+        <EntityTypeShape EntityType="PROACCModel.RoleMaster" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

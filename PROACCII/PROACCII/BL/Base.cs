@@ -1,5 +1,6 @@
 ﻿using PROACCII.BL.Common;
 using PROACCII.BL.Model;
+using PROACCII_DB;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -84,6 +85,228 @@ namespace PROACCII.BL
         {
             return Cipher.Decrypt(st, _salt);
         }
+        #endregion
+
+        #region project
+        
+        public List<ProjectViewModel> Sp_GetProjectViewData()
+        {
+            List<ProjectViewModel> pvm = new List<ProjectViewModel>();
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("SP_Project", CommandType.StoredProcedure);
+            dB.addIn("@Type", "PullData");
+           
+            dt = dB.ExecuteDataTable();
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ProjectViewModel P = new ProjectViewModel();
+                    P.Project_Id = Guid.Parse(dr["Project_Id"].ToString());
+                    P.Project_Name = dr["Project_Name"].ToString();
+                    P.Cre_on = Convert.ToDateTime(dr["Cre_on"].ToString());
+                    P.Company_Name = dr["Company_Name"].ToString();
+                    P.Name = dr["Name"].ToString();
+                    P.ScenarioName = dr["ScenarioName"].ToString();
+                    P.InstanceCount = Convert.ToInt32(dr["InstanceCount"].ToString());
+                    //P.InstanceName = dr["InstaceName"].ToString();
+                    //P.EndDate = Convert.ToDateTime(dr["EndDate"].ToString());
+                    //P.LastUpdatedDate = Convert.ToDateTime(dr["LastUpdatedDate"].ToString());
+                    //P.AssignedTo = Guid.Parse(dr["AssignedTo"].ToString());
+                    //P.Status = dr["Status"].ToString();
+                    pvm.Add(P);
+                }
+            }
+            return pvm;
+        }
+
+        public Boolean Project_Master_Add_Update(ProjectViewModel project)
+        {
+            bool Status = false;
+            LogHelper _log = new LogHelper();
+            try
+            {
+                DBHelper dB = new DBHelper("SP_Project", CommandType.StoredProcedure);
+                if (project.Project_Id == Guid.Empty)
+                {
+                    dB.addIn("@Type", "ProjectAdd");
+                    dB.addIn("@ProjectId", Guid.NewGuid());
+                }
+                else
+                {
+                    dB.addIn("@Type", "ProjectUpdate");
+                    dB.addIn("@Project_Id", project.Project_Id);
+                }
+
+                dB.addIn("@Project_Name", project.Project_Name);
+                dB.addIn("@Description", project.Description);
+                dB.addIn("@Customer_Id", project.Customer_Id);
+                dB.addIn("@ProjectManager_Id", project.ProjectManager_Id);
+                dB.addIn("@ScenarioId", project.ScenarioId);
+                dB.addIn("@Cre_By", project.Cre_By);
+                dB.ExecuteScalar();
+
+                Status = true;
+            }
+            catch (Exception ex)
+            {
+                _log.createLog(ex, "");
+            }
+            return Status;
+        }
+
+        public Boolean Project_Delete(Project project)
+        {
+            bool Status = false;
+            LogHelper _log = new LogHelper();
+            try
+            {
+                DBHelper dB = new DBHelper("SP_Project", CommandType.StoredProcedure);
+                if (project.Project_Id != Guid.Empty)
+                {
+                    dB.addIn("@Type", "ProjectDelete");
+                    dB.addIn("@Project_Id", project.Project_Id);
+                    dB.addIn("@Cre_By", project.Modified_by);
+                }
+
+                dB.ExecuteScalar();
+
+                Status = true;
+            }
+            catch (Exception ex)
+            {
+                _log.createLog(ex, "");
+            }
+            return Status;
+        }
+        #endregion
+
+        #region Instance
+
+        public Boolean Instance_Add(Instance instance)
+        {
+            bool Status = false;
+            LogHelper _log = new LogHelper();
+            try
+            {
+                DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
+                if (instance.Instance_id == Guid.Empty)
+                {
+                    dB.addIn("@Type", "instanceAdd");              
+                    dB.addIn("@InstaceName", instance.InstaceName);
+                    dB.addIn("@Project_ID", instance.Project_ID);
+                    dB.addIn("@Cre_By", instance.Cre_By);
+                    dB.ExecuteScalar();
+
+                    Status = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                _log.createLog(ex, "");
+            }
+            return Status;
+        }
+
+        public Boolean Instance_Delete(Instance instance)
+        {
+            bool Status = false;
+            LogHelper _log = new LogHelper();
+            try
+            {
+                DBHelper dB = new DBHelper("SP_Instance", CommandType.StoredProcedure);
+                if (instance.Instance_id != Guid.Empty)
+                {
+                    dB.addIn("@Type", "instanceDelete");
+                    dB.addIn("@Instance_id", instance.Instance_id);
+                    dB.addIn("@Cre_By", instance.Modified_by);
+                    dB.ExecuteScalar();
+                    Status = true;
+                }  
+            }
+            catch (Exception ex)
+            {
+                _log.createLog(ex, "");
+            }
+            return Status;
+        }
+
+        #endregion
+
+        #region CUSTOMER-CRUD
+        public bool Sp_InserCustomer(Customer customer)
+        {
+            Boolean Result = false;
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("Sp_Customer", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Insert");
+            dB.addIn("@Company_Name", customer.Company_Name);
+            dB.addIn("@IndustrySector_ID", customer.IndustrySector_ID);
+            dB.addIn("@Contact", customer.Contact);
+            dB.addIn("@Phone", customer.Phone);
+            dB.addIn("@Email", customer.Email);
+            dB.addIn("@Cre_By", customer.Cre_By);
+            dB.addIn("@Cre_on", customer.Cre_on);
+            dB.addIn("@isActive", customer.isActive);
+            dB.ExecuteScalar();
+            Result = true;
+            return Result;
+        }
+
+
+
+        public bool Sp_EditCustomer(Customer customer)
+        {
+            Boolean Result = false;
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("Sp_Customer", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Update");
+            dB.addIn("@Id", customer.Customer_ID);
+            dB.addIn("@Company_Name", customer.Company_Name);
+            dB.addIn("@IndustrySector_ID", customer.IndustrySector_ID);
+            dB.addIn("@Contact", customer.Contact);
+            dB.addIn("@Phone", customer.Phone);
+            dB.addIn("@Email", customer.Email);
+            dB.addIn("@Modified_by", customer.Modified_by);
+            dB.addIn("@Modified_On", customer.Modified_On);
+            dB.addIn("@isActive", customer.isActive);
+            dB.ExecuteScalar();
+            Result = true;
+            return Result;
+        }
+        #endregion
+
+        #region ROLE
+        public bool Sp_CreateRole(RoleMaster role)
+        {
+            Boolean Result = false;
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("Sp_RoleMaster", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Insert");
+            dB.addIn("@RoleName", role.RoleName);
+            dB.addIn("@Cre_By", role.Cre_By);
+            dB.addIn("@Cre_on", role.Cre_on);
+            dB.addIn("@isActive", role.isActive);
+            dB.ExecuteScalar();
+            Result = true;
+            return Result;
+        }
+        public bool Sp_UpdateRole(RoleMaster role)
+        {
+            Boolean Result = false;
+            DataTable dt = new DataTable();
+            DBHelper dB = new DBHelper("Sp_RoleMaster", CommandType.StoredProcedure);
+            dB.addIn("@Type", "Update");
+            dB.addIn("@RoleId", role.RoleId);
+            dB.addIn("@RoleName", role.RoleName);
+            dB.addIn("@Modified_by", role.Modified_by);
+            dB.addIn("@Modified_On", role.Modified_On);
+            dB.addIn("@isActive", role.isActive);
+            dB.ExecuteScalar();
+            Result = true;
+            return Result;
+        }
+
         #endregion
     }
 }

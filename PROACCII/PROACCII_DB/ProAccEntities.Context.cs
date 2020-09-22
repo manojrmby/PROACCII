@@ -25,7 +25,12 @@ namespace PROACCII_DB
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<IndustrySector> IndustrySectors { get; set; }
         public virtual DbSet<Instance> Instances { get; set; }
         public virtual DbSet<Project> Projects { get; set; }
+        public virtual DbSet<ScenarioMaster> ScenarioMasters { get; set; }
+        public virtual DbSet<UserMaster> UserMasters { get; set; }
+        public virtual DbSet<RoleMaster> RoleMasters { get; set; }
     }
 }

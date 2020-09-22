@@ -1,0 +1,97 @@
+﻿@model IEnumerable<PROACCII_DB.Customer>
+
+<link href="~/Content/Customer.css" rel="stylesheet" />
+
+<div style="max-width: 99.5%">
+
+    <a class="card-title">Customer List</a>
+    <hr />
+    <table class="table" id="tblCustomer">
+        @*_search*@
+        <thead>
+            <tr>
+                <th>Customer Name</th>
+                <th>Industry Sector</th>
+                <th>Contact Person</th>
+                <th>Contact Person Phone</th>
+                <th>Contact Person Email</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <a class="txtG" value="@item.Company_Name">@item.Company_Name</a>
+                    </td>
+                    <td>
+                        <a class="txtG" value="@item.IndustrySector_ID">@item.IndustrySector.Industry_Sector</a>
+                    </td>
+                    <td>
+                        <a class="txtG" value="@item.Contact">@item.Contact</a>
+                    </td>
+                    <td>
+                        <a class="txtG" value="@item.Phone">@item.Phone.Replace(" ", "")</a>
+                    </td>
+                    <td>
+                        <a class="txtG" value="@item.Email">@item.Email</a>
+                    </td>
+                    <td>
+                        <a class="txtG" value="@item.Cre_on">@Convert.ToDateTime(item.Cre_on).ToString("yyyy/MM/dd")</a>
+                    </td>
+                    <td>
+                        @*&nbsp;&nbsp;<button id="btnEdit"><img src="~/Asset/Images/edit.png" class="btnimg" /></button>
+                            &nbsp;&nbsp;<button id="btnDelete"><img src="~/Asset/Images/delete.png" class="btnimg" /></button>*@
+
+                        &nbsp;&nbsp;<input type="button" id="btnEdit" onclick='Edit("@item.Customer_ID")' value="Edit" />
+                        &nbsp;&nbsp;<input type="button" id="btnDelete" onclick='Delete("@item.Customer_ID")' value="Delete" />
+                        <input type="hidden" value="@item.Customer_ID" id="CustID" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div id="EditCustomer"></div>
+@Html.Hidden("RedirectToCustomerList", Url.Action("Home", "Home"))
+<script>
+    //$(document).ready(function () {
+    
+    function Edit(id) {
+            $("#EditCustomer").dialog({
+                closeOnEscape: false,
+                autoOpen: true,
+                width: 700,
+                height: 500,
+                draggable: false,
+                resizable: false,
+                modal: true,
+                open: function () {
+                    $(this).load("/Home/GetCustomerById?id=" + id);
+                },
+            });
+        }
+
+    //$("#btnDelete").click(function () {
+    function Delete(id) {
+        
+            //var id = $(this).next().val();
+            $.ajax({
+                type: "POST",
+               url: '@Url.Action("Delete","Home")',
+                data: { id: id },
+                dataType: "json",
+                success: function (response) {
+                    if (response == "success") {
+                        alert("Record Deleted Scuccessfully");
+                        var url = $("#RedirectToCustomerList").val();
+                        location.href = url;
+                       // location.reload();
+                    }
+                }
+            });
+        }
+    //});
+</script>

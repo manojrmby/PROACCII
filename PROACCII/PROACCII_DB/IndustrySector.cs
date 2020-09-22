@@ -12,31 +12,24 @@ namespace PROACCII_DB
     using System;
     using System.Collections.Generic;
     
-    public partial class Project
+    public partial class IndustrySector
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Project()
+        public IndustrySector()
         {
-            this.Instances = new HashSet<Instance>();
+            this.Customers = new HashSet<Customer>();
         }
     
-        public System.Guid Project_Id { get; set; }
-        public string Project_Name { get; set; }
-        public string Description { get; set; }
-        public System.Guid Customer_Id { get; set; }
-        public System.Guid ProjectManager_Id { get; set; }
-        public int ScenarioId { get; set; }
-        public bool isActive { get; set; }
+        public int IndustrySector_ID { get; set; }
+        public string Industry_Sector { get; set; }
+        public Nullable<bool> IsActive { get; set; }
         public System.DateTime Cre_on { get; set; }
         public System.Guid Cre_By { get; set; }
         public Nullable<System.DateTime> Modified_On { get; set; }
         public Nullable<System.Guid> Modified_by { get; set; }
-        public bool IsDeleted { get; set; }
+        public Nullable<bool> IsDeleted { get; set; }
     
-        public virtual Customer Customer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Instance> Instances { get; set; }
-        public virtual ScenarioMaster ScenarioMaster { get; set; }
-        public virtual UserMaster UserMaster { get; set; }
+        public virtual ICollection<Customer> Customers { get; set; }
     }
 }

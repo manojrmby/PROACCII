@@ -1,0 +1,95 @@
+﻿<link href="~/Content/Customer.css" rel="stylesheet" />
+<div class="modal">
+    <div class="title">
+        <input type="hidden" id="RoleId" />
+        <input type="hidden" id="Rcre_on" />
+        <input type="hidden" id="Rcre_By" />
+        <h3 class="h2">Add User</h3>
+        <img src="~/Asset/Images/pngegg.png" alt="No Image" width="20" height="20" id="crossimg" />
+    </div>
+    <div class="col-6">
+        <div class="form-group">
+            <label class="control-label">Role Name</label>
+            <input type="text" class="form-control" id="txtRoleName">
+            <div class="_span">
+                <span class="Class_span" id="lblRoleName">&nbsp;</span>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="ui-dialog-buttonset">
+        <button type="button" class="ui-button ui-corner-all ui-widget btn-hover" id="btnRoleCreate">Add Role</button>
+        <button type="button" class="ui-button ui-corner-all ui-widget btn-hover" id="closedialog">Cancel</button>
+    </div>
+</div>
+@Html.Hidden("RedirectToList", Url.Action("Home", "Home"))
+
+
+<script>
+    $(document).ready(function () {
+
+
+    function validateRolename(data) {
+        var letters = /[~`!#$%\^&*()+=';,{}|":<>?]/;
+        if (letters.test(data)) {
+            return false;
+        }
+    }
+
+    function validateRoleExists(RoleName,id) {
+        var Status = true;
+        $.ajax({
+            url: '@Url.Action("CheckRole","Home")',
+            //type: "GET",
+            data: { name: RoleName, id: id },
+            dataType: "json",
+            async: false,
+            success: function (data) {
+                if (data != "success")
+                {
+                    Status = false;
+                }
+            }
+        });
+        return Status;
+    }
+
+    $("#btnRoleCreate").on("click", function () {
+        var RoleName = $("#txtRoleName").val().trim();
+        if (RoleName == "" || validateRolename(RoleName) == false) {
+            $("#lblRoleName").html("Please enter the Valid Role").show().fadeOut(5000);
+
+        }
+        else if (validateRoleExists(RoleName, null) == false) {
+            $("#lblRoleName").html("Role Name is already in use").show().fadeOut(5000);
+            location.reload();
+        }
+        else {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CreateRole", "Home")',
+                data: { RoleName: RoleName },
+                success: function (response) {
+                    if (response == "success") {
+                        //location.reload();
+                        location.href = $("#RedirectToList").val();
+                    }
+                },
+                failure: function (response) {
+                    alert(response.responseText);
+                },
+                error: function (response) {
+                    alert(response.responseText);
+                }
+            })
+        }
+    });
+
+
+
+        $("#closedialog,#crossimg").click(function () {
+            $("#AddRole").dialog("close");
+        })
+    });
+</script>
+

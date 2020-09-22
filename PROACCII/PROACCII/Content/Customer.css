@@ -1,0 +1,294 @@
+﻿body {
+}
+
+/********************************Home Modal*******************************************************/
+.h3 {
+    position: relative;
+    margin-top: 45px;
+    padding: 10px;
+    background: darkslategrey;
+    color: white;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 1.4em;
+    outline: none;
+}
+
+.btn {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    outline: none;
+    border: none;
+    color: darkgreen;
+    cursor: pointer;
+    background: transparent;
+    margin-left: 88%;
+    box-shadow: 5px 10px 5px grey;
+    top: -7px;
+}
+a.card-title {
+    cursor: pointer;
+    box-shadow: 5px 10px 5px grey;
+    color: green;
+}
+
+
+div#UserInfo {
+    margin-top: -26px;
+}
+    div#accordion {
+        transition: 0.4s;
+    }
+/********************************UI Widget*****************************************************/
+/*.ui-widget-content {
+    height: 53px;
+}*/
+
+.customer.ui-accordion-content.ui-corner-bottom.ui-helper-reset.ui-accordion-content-active
+{
+    height:500px;
+}
+
+
+.ui-widget.ui-widget-content {
+    border: 1px solid #d3d3d3;
+    border-radius: 15px;
+}
+.ui-dialog .ui-dialog-titlebar {
+    padding: .4em 1em;
+    display: none;
+    position: relative;
+}
+.ui-dialog-buttonset {
+    width: 437px;
+    position: absolute;
+    /* float: right; */
+    margin-left: 132px;
+}
+.btn-hover {
+    outline: none;
+    border: none;
+    width: 203px;
+    background: darkseagreen;
+    float: right;
+
+}
+button.btn-hover:hover {
+    outline: none;
+    border: none;
+    width: 203px;
+    background: darkslategrey;
+    color: white;
+}
+
+button.ui-dialog-titlebar-close {
+    padding: 0 !important;
+    border: none;
+    outline: none;
+    background-image: url('../Asset/Images/pngegg.png');
+}
+
+/****************************Create Input Css******************************************/
+
+.title {
+    position: relative;
+    width: 100%;
+    background: darkslategrey;
+    margin-top: -30px;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    box-shadow: 5px 10px 5px grey;
+}
+h3.h2 {
+    color: white;
+    position: relative;
+    width: 125px;
+    height: 0px;
+    top: 9px;
+    left: 22px;
+}
+img#crossimg {
+    position: relative;
+    margin-left: 613px;
+    width: 31px;
+    height: 31px;
+    margin-top: -27px;
+    cursor: pointer;
+}
+img#crossimg:hover {
+    position: relative;
+background-color:white;
+border:none;
+outline:none; 
+    cursor: pointer;
+}
+
+.col-6 {
+    margin-left: 1%;
+    height: 47px;
+    margin-top: 30px;
+}
+
+.form-group {
+    position: relative;
+    height: 49px;
+    padding: 0px;
+    margin-left: 113px;
+}
+
+input#txtCompanyName {
+    position: relative;
+    left: 11%;
+    height: 27px;
+    border-radius: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background: darkseagreen;
+    color: white;
+    font-size: 0.9em;
+}
+
+select#drpIndustrySector {
+    position: relative;
+    left: 12%;
+    height: 27px;
+    border-radius: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background: darkseagreen;
+    color: white;
+    font-size: 0.9em;
+}
+
+input#txtContact {
+    position: relative;
+    left: 3%;
+    height: 27px;
+    border-radius: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background: darkseagreen;
+    color: white;
+    font-size: 0.9em;
+}
+
+input#txtCustomerEmail {
+    position: relative;
+    left: 4%;
+    height: 27px;
+    border-radius: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background: darkseagreen;
+    color: white;
+    font-size: 0.9em;
+}
+
+input#txtCustomerPhone {
+    position: relative;
+    left: 3%;
+    height: 27px;
+    border-radius: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background: darkseagreen;
+    color: white;
+    font-size: 0.9em;
+}
+
+input#txtRoleName {
+    position: relative;
+    left: 11%;
+    height: 27px;
+    border-radius: 5px;
+    width: 200px;
+    border: none;
+    outline: none;
+    background: darkseagreen;
+    color: white;
+    font-size: 0.9em;
+}
+
+/*.Class_span
+{
+    color:red;
+}*/
+._span {
+    margin-left:188px;
+    position:relative;
+}
+._span span {
+    color: red;
+    font-size: 0.7em;
+}
+
+
+/******************** Customer Action Menu*************************************/
+input#btnEdit {
+    border: none;
+    outline: none;
+    width: 44px;
+    height: 20px;
+    background:aqua;
+    cursor:pointer;
+}
+    input#btnEdit:hover {
+        border: none;
+        outline: none;
+        background: aliceblue;
+    }
+input#btnDelete {
+    border: none;
+    outline: none;
+    width: 50px;
+    height: 20px;
+   background:aqua;
+    cursor: pointer;
+}
+input#btnDelete:hover {
+    border:none;
+    outline:none;
+    background:aliceblue;
+}
+button#btnDelete {
+    border: none;
+    outline: none;
+    background: transparent;
+
+}
+.btnimg {
+    width: 15px;
+    height: 15px;
+    cursor:pointer;
+}
+#tblCustomer
+{
+    width:100%;
+}
+#tblCustomer td, #tblCustomer th {
+    border: 1px solid #ddd;
+    padding: 6px;
+    font-size: 0.7em;
+}
+#tblCustomer tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#tblCustomer tr:hover {
+    background-color: #ddd;
+}
+
+#tblCustomer th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: darkslategrey;
+    color: white;
+}
